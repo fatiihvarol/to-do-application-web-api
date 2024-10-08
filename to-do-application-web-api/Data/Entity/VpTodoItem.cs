@@ -9,6 +9,8 @@ namespace to_do_application_web_api.Data.Entity
         public bool IsCompleted { get; set; }
         public string? Detail { get; set; }
         public PriorityEnum Priority { get; set; }
+        public string? UserId { get; set; }
+        public VpUser? User { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     }
 }
