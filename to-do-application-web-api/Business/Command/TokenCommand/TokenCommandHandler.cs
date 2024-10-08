@@ -1,8 +1,11 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using to_do_application_web_api.Base.Cryptograph;
+using to_do_application_web_api.Base.Message;
 using to_do_application_web_api.Base.Response;
 using to_do_application_web_api.Business.Cqrs;
 using to_do_application_web_api.Data.AppDbContext;
@@ -12,8 +15,7 @@ using to_do_application_web_api.Data.Schema.Auth;
 namespace to_do_application_web_api.Business.Command.TokenCommand
 {
     public class TokenCommandHandler :
-        IRequestHandler<CreateTokenCommand, ApiResponse<AuthResponseVM>>,
-        IRequestHandler<RefreshTokenCommand, ApiResponse<AuthResponseVM>>
+        IRequestHandler<CreateTokenCommand, ApiResponse<AuthResponseVM>>
     {
         private readonly IConfiguration _configuration;
         private readonly AppDbContext _dbContext;
@@ -27,7 +29,7 @@ namespace to_do_application_web_api.Business.Command.TokenCommand
         public async Task<ApiResponse<AuthResponseVM>> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
         {
             // Validate the request model
-            if (string.IsNullOrEmpty(request.Model.Password) || string.IsNullOrEmpty(request.Model.Email))
+            if (string.IsNullOrEmpty(request.Model.Password) || string.IsNullOrEmpty(request.Model.UserName))
             {
                 return ApiResponse<AuthResponseVM>.Failure(ErrorMessage.TokenErrorMessage.EmptyModelError);
             }
@@ -35,8 +37,8 @@ namespace to_do_application_web_api.Business.Command.TokenCommand
             var hashedPassword = Md5Extension.Create(request.Model.Password);
 
             // Fetch user from the database
-            var user = await _dbContext.VpApplicationUsers
-                .FirstOrDefaultAsync(u => u.Email == request.Model.Email && u.Password == hashedPassword);
+            var user = await _dbContext.VpUsers
+                .FirstOrDefaultAsync(u => u.UserName == request.Model.UserName && u.Password == hashedPassword);
 
             // Handle case where user is not found
             if (user == null)
@@ -64,7 +66,6 @@ namespace to_do_application_web_api.Business.Command.TokenCommand
             var response = new AuthResponseVM
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                RefreshToken = refreshToken,
                 ExpiresAt = token.ValidTo
             };
 
@@ -77,8 +78,7 @@ namespace to_do_application_web_api.Business.Command.TokenCommand
             return new[]
             {
                 new Claim("Id", user.Id.ToString()),
-                new Claim("Email", user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim("UserName", user.UserName),
             };
         }
 
