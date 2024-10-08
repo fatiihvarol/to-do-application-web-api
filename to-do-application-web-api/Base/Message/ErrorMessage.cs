@@ -9,5 +9,12 @@
             public static string UserNotFound = "User not found";
 
         }
+        public interface TodoItemErrorMessage
+        {
+            public static string ModelNotFoundError = "Model not found on the request";
+            public static string EmptyModelError = "Model can not be empty";
+            public static string UserNotFound = "User not found";
+
+        }
     }
 }

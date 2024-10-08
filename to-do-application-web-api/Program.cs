@@ -42,6 +42,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddHttpContextAccessor();
+
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

@@ -11,6 +11,5 @@ namespace to_do_application_web_api.Data.Entity
         public PriorityEnum Priority { get; set; }
         public int UserId { get; set; }
         public VpUser? User { get; set; }
-        public DateTime CreateDate { get; set; } = DateTime.UtcNow;
     }
 }
