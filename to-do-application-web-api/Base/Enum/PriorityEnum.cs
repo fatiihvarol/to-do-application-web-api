@@ -1,4 +1,4 @@
-﻿namespace to_do_application_web_api.Base
+﻿namespace to_do_application_web_api.Base.Enum
 {
     public enum PriorityEnum
     {

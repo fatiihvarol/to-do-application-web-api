@@ -1,5 +1,5 @@
-﻿using to_do_application_web_api.Base;
-using to_do_application_web_api.Base.BaseEntity;
+﻿using to_do_application_web_api.Base.BaseEntity;
+using to_do_application_web_api.Base.Enum;
 
 namespace to_do_application_web_api.Data.Entity
 {
