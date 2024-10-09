@@ -7,7 +7,10 @@ namespace to_do_application_web_api.Data.Schema
     {
         public string? Title { get; set; }
         public string? Detail { get; set; }
+        public bool IsCompleted { get; set; }
         public PriorityEnum Priority { get; set; }
+
+
     }
     public class TodoItemResponse
     {
