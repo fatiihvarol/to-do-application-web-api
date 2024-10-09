@@ -17,7 +17,7 @@ namespace to_do_application_web_api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginVM model)
         {
             var response = await _mediator.Send(new CreateTokenCommand(model));
