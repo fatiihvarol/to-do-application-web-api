@@ -56,9 +56,7 @@ namespace to_do_application_web_api.Business.Command.TodoItemCommand
 
             var mapped =_mapper.Map<TodoItemRequest, VpTodoItem>(request.Model);
             mapped.UserId = Int32.Parse(userId);
-            mapped.CreatedDate = DateTime.UtcNow;
-            mapped.IsCompleted = false;
-           
+            mapped.CreatedDate = DateTime.UtcNow;           
 
            var fromdb = await _appDbContext.AddAsync(mapped, cancellationToken);
            await _appDbContext.SaveChangesAsync(cancellationToken);
