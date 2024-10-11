@@ -38,6 +38,7 @@ namespace to_do_application_web_api.Business.Query.TodoItemQueryHandler
 
             var todoItems = await _appDbContext.VpTodoItems
                 .Where(t => t.UserId == Int32.Parse(userId))
+                .OrderByDescending(t => t.Priority)
                 .ToListAsync(cancellationToken);
 
             var mapped = _mapper.Map<List<VpTodoItem>, List<TodoItemResponse>>(todoItems);
